@@ -26,14 +26,15 @@ Elixir.extend('Bower', function(options, dest){
 
         var onError = function(err){
             notify.onError({
-                title       : "Elixir Bower",
-                subtitule   : "Elixir Bower Failed!",
-                message     : "Error : <%= error.message %>",
-                icon        : __dirname + '/../laravel-elixir/icons/fail.png'
+                title      : "Elixir Bower",
+                subtitle   : "Elixir Bower Failed!",
+                message    : "Error : <%= error.message %>",
+                icon       : __dirname + '/../laravel-elixir/icons/fail.png'
             })(err);
 
             this.emit('end');
         }
+        
         if(dest != null){
             return bower(options)
                 .pipe(gulp.dest(dest));
