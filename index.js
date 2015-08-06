@@ -1,7 +1,9 @@
 var gulp        = require('gulp');
 var notify      = require('gulp-notify');
 var bower       = require('gulp-bower');
-var elixir      = require('laravel-elixir');
+var Elixir      = require('laravel-elixir');
+
+var Task = Elixir.Task;
 
 function notify_message(title, subtitle, message, icon){
     gulp.src('').pipe(notify({
@@ -12,7 +14,7 @@ function notify_message(title, subtitle, message, icon){
     }));
 }
 
-elixir.extend('Bower', function(options, dest){
+Elixir.extend('Bower', function(options, dest){
 
     var defaultOptions = {};
     var defaultDest    = null;
@@ -20,9 +22,9 @@ elixir.extend('Bower', function(options, dest){
     options = options || defaultOptions;
     dest = dest || defaultDest;
 
-    gulp.task('Bower', function(){
+    new Task('Bower', function(){
 
-    	var onError = function(err){
+        var onError = function(err){
             notify.onError({
                 title       : "Elixir Bower",
                 subtitule   : "Elixir Bower Failed!",
@@ -32,15 +34,12 @@ elixir.extend('Bower', function(options, dest){
 
             this.emit('end');
         }
-            if(dest != null){
-                return bower(options)
-                .pipe(gulp.dest(dest));    
-            }else{
-                return bower(options);
-            }
-            
-        });
+        if(dest != null){
+            return bower(options)
+                .pipe(gulp.dest(dest));
+        }else{
+            return bower(options);
+        }
 
-    this.registerWatcher("Bower", "bower.json");
-    return this.queueTask("Bower");
+    });
 });
